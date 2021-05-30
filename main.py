@@ -2,12 +2,16 @@ import requests
 import telegram
 import time
 import traceback
+import json
+
+with open("config.json") as f:
+    config = json.loads(f.read())
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.864.37'}
 
 # Telegram
-telegram_token = ''
-telegram_chat_id = ''
+telegram_token = config["telegram_token"]
+telegram_chat_id = config["telegram_chat_id"]
 telegram_bot = telegram.Bot(token=telegram_token)
 
 def chk_stock(prdt_code, zip_code): # 모델명과 우편번호 입력하여 재고 확인
@@ -30,8 +34,9 @@ def telegram_send(message): # 텔레그램 메시지 전송
 
 prdt_name = ''
 prdt_code = 'MHNF3KH/A'
-zip_code = ''
+zip_code = config['zip_code']
 repeat = 5
+telegram_send('프로그램 시작')
 
 while True:
     try:
